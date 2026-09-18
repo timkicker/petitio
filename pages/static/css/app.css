@@ -1,0 +1,17 @@
+/* small layer on top of bootstrap, one radius everywhere, no colour overrides */
+:root {
+    --bs-border-radius: .5rem;
+    --bs-border-radius-sm: .5rem;
+    --bs-border-radius-lg: .5rem;
+}
+
+main { padding-top: 1.5rem; padding-bottom: 3rem; }
+
+.navbar-brand { letter-spacing: .02em; }
+
+/* phones: search drops to its own full-width row under brand and links.
+   small screens and up: brand, search and links share one row, search grows */
+.nav-search { flex: 1 1 100%; }
+@media (min-width: 576px) {
+    .nav-search { flex: 1 1 auto; }
+}
