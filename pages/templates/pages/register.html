@@ -1,0 +1,22 @@
+{% extends "pages/base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Create an account</h1>
+{% if error %}<div class="alert alert-warning" role="alert">{{ error }}</div>{% endif %}
+<form method="post" style="max-width:24rem">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label" for="username">Username</label>
+        <input class="form-control" id="username" type="text" name="username" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-control" id="email" type="email" name="email" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-control" id="password" type="password" name="password" required />
+    </div>
+    <button class="btn btn-primary" type="submit">Register</button>
+</form>
+{% endblock %}
