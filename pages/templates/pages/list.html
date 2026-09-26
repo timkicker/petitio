@@ -1,0 +1,14 @@
+{% extends "pages/base.html" %}
+{% block content %}
+<h1 class="h3 mb-3">Open petitions</h1>
+<div class="list-group">
+    {% for p in petitions %}
+    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center gap-3" href="/petition/{{ p.id }}/">
+        <span>{{ p.title }}</span>
+        <span class="badge text-bg-secondary flex-shrink-0">{{ p.signatures.count }} signature{{ p.signatures.count|pluralize }}</span>
+    </a>
+    {% empty %}
+    <div class="list-group-item text-secondary">No petitions yet.</div>
+    {% endfor %}
+</div>
+{% endblock %}

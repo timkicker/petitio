@@ -1,0 +1,28 @@
+{% extends "pages/base.html" %}
+{% block title %}{{ petition.title }}{% endblock %}
+{% block content %}
+<h1 class="h3 mb-1">{{ petition.title }}</h1>
+<p class="text-secondary mb-4">Started by {{ petition.owner.username }}, {{ petition.signatures.count }} signature{{ petition.signatures.count|pluralize }} so far, {{ petition.status }}</p>
+
+<div class="card mb-4">
+    <div class="card-body">{{ petition.body|linebreaks }}</div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="h5 mb-3">Sign this petition</h2>
+        <form action="/petition/{{ petition.id }}/sign" method="post" class="row g-2">
+            {% csrf_token %}
+            <div class="col-sm"><input class="form-control" type="text" name="name" placeholder="Your name" required /></div>
+            <div class="col-sm"><input class="form-control" type="email" name="email" placeholder="Email" required /></div>
+            <div class="col-sm-auto d-grid"><button class="btn btn-primary" type="submit">Sign</button></div>
+        </form>
+    </div>
+</div>
+
+<div class="d-flex flex-wrap gap-2">
+    <a class="btn btn-outline-secondary" href="/petition/{{ petition.id }}/edit">Edit</a>
+    <a class="btn btn-outline-secondary" href="/petition/{{ petition.id }}/signatures">Signatures</a>
+    <a class="btn btn-outline-danger" href="/petition/{{ petition.id }}/delete">Delete</a>
+</div>
+{% endblock %}

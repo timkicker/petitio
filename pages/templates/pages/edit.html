@@ -1,0 +1,17 @@
+{% extends "pages/base.html" %}
+{% block title %}Edit petition{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Edit petition</h1>
+<form method="post" style="max-width:40rem">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input class="form-control" id="title" type="text" name="title" value="{{ petition.title }}" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="body">Text</label>
+        <textarea class="form-control" id="body" name="body" rows="6" required>{{ petition.body }}</textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>
+{% endblock %}
