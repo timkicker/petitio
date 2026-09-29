@@ -1,0 +1,15 @@
+{% extends "pages/base.html" %}
+{% block title %}Signatures{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Signatures for {{ petition.title }}</h1>
+<table class="table table-striped align-middle">
+    <thead><tr><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Date</th></tr></thead>
+    <tbody>
+    {% for s in sigs %}
+        <tr><td>{{ s.signer_name }}</td><td>{{ s.signer_email }}</td><td>{{ s.created_at|date:"Y-m-d" }}</td></tr>
+    {% empty %}
+        <tr><td colspan="3" class="text-secondary">No signatures yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
