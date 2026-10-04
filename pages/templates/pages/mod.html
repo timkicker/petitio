@@ -1,0 +1,24 @@
+{% extends "pages/base.html" %}
+{% block title %}Moderation{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Moderation</h1>
+<table class="table align-middle">
+    <thead><tr><th scope="col">#</th><th scope="col">Title</th><th scope="col">Status</th><th scope="col">Action</th></tr></thead>
+    <tbody>
+    {% for p in petitions %}
+        <tr>
+            <td>{{ p.id }}</td>
+            <td><a href="/petition/{{ p.id }}/">{{ p.title }}</a></td>
+            <td>{{ p.status }}</td>
+            <td>
+                <form method="post" class="d-flex gap-2">{% csrf_token %}
+                    <input type="hidden" name="pid" value="{{ p.id }}" />
+                    <button class="btn btn-outline-secondary" name="action" value="close">Close</button>
+                    <button class="btn btn-outline-danger" name="action" value="delete">Delete</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
