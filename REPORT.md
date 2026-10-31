@@ -17,7 +17,7 @@ The seed command creates four demo accounts with weak passwords on purpose: alic
 
 FLAW 1 (A01 Broken Access Control):
 https://github.com/timkicker/petitio/blob/main/pages/views.py#L90
-The views that edit, delete and list the signatures of a petition check only that someone is signed in. They never check that the account actually owns the petition. Any user can open the edit URL of a petition that belongs to someone else and change or delete it. The signatures page hands out the name and email of everyone who signed. The moderation view does its own role check correctly, which shows that the gap is the missing owner check in these three views and not a general lack of checks. The effect is in flaw-1-before-1.png and flaw-1-after-1.png.
+The views that edit, delete and list the signatures of a petition check only that someone is signed in. They never check that the account actually owns the petition. Any user can open the edit URL of a petition that belongs to someone else and change or delete it. The signatures page hands out the name and email of everyone who signed. The moderation view does its own role check correctly, which shows that the gap is the missing owner check in these three views and not a general lack of checks. The takeover is in flaw-1-before-1.png and flaw-1-before-2.png. flaw-1-after-1.png shows the fix answering with 403.
 How to fix it: compare the owner of the petition against the current account before touching it and answer with 403 when they differ and the account is not a moderator. The commented fix under each of the three views does this with one guard, if petition.owner_id != account.id and not account.is_moderator: return HttpResponseForbidden().
 
 FLAW 2 (A02 Cryptographic Failures):
@@ -32,7 +32,7 @@ How to fix it: never build SQL by string formatting. The commented fix uses the 
 
 FLAW 4 (A07 Identification and Authentication Failures):
 https://github.com/timkicker/petitio/blob/main/pages/views.py#L190
-The login has no rate limiting. The account even carries a failed_logins counter but the login never reads it, so an attacker can try one password after another without end. Together with the weak hashes from flaw 2 a short wordlist finds a password in seconds. Registration has no length rule either, so a one character password is accepted. flaw-4-before-1.png and flaw-4-after-1.png show the endless attempts and then the lockout.
+The login has no rate limiting. The account even carries a failed_logins counter but the login never reads it, so an attacker can try one password after another without end. Together with the weak hashes from flaw 2 a short wordlist finds a password in seconds. Registration has no length rule either, so a one character password is accepted. flaw-4-before-1.png shows a wrong password only giving a login failed message. flaw-4-before-2.png shows the correct password still logging in after several wrong tries, so nothing locks. flaw-4-after-1.png shows the account locked after five tries.
 How to fix it: count the failed attempts and lock the account after five, set the counter back to zero on a correct password and ask for a minimum length on register. The commented fix in loginView does this, so after five wrong tries even the correct password is refused with a locked message. A normal login within the limit still works.
 
 FLAW 5 (A09 Security Logging and Monitoring Failures):
